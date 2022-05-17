@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사진 카테고리 예측</title>
+</head>
+<body>
+    <form action="http://127.0.0.1:5000/" method="POST" enctype="multipart/form-data" style="display: none;" >
+        <input ref="imgs_select_form" id="inputid" type="file" name="image" accept="image/" style="display: none;" onchange="change_img(this.value)" />
+        <input type="submit" style="display: none;" id="img_submit" onclick="click_submit()" />
+    </form>
+    <div class="main-container">
+        <div class="save-container" id="page1">
+            <div class="mp1">사진 카테고리 분류</div>
+            <div class="column-1-center">
+                <div>사진을 입력하면</div>
+                <div><b>사람, 동물, 자연, 음식, 도시</b>중 하나의 카테고리로</div>
+                <div>예측합니다.</div>
+            </div>
+            <div class="row-center-center mp1-box" onclick="goto_page2()">
+                <div class="mp1-box-text">시작하기</div>
+            </div>
+        </div>
+        <div class="save-container" id="page2">
+            <div class="column-1-center">
+                <label for="inputid">
+                    <div class="img-input-box row-center-center" id="before_ii">
+                        <div class="img-input-text">이미지 등록하기</div>
+                    </div>
+                </label>
+                <div class="column-1-center iib-after">
+                    <div class="img-input-box-after row-center-center" id="after_ii">
+                        <div class="img-input-text-after"></div>
+                    </div>
+                    <label for="inputid">
+                        <div class="img-reupload-box row-center-center" id="after_rii">
+                            <div class="img-reupload-text">이미지 다시 업로드</div>
+                        </div>
+                    </label>
+                </div>
+                <label for="img_submit">
+                    <div class="img-submit-box row-center-center" id="sumitbtn">
+                        <div class="img-submit-text">이미지 제출</div>
+                    </div>
+                </label>
+            </div>
+            <div class="mp1-box-u" style="color: #053262; cursor: pointer; font-size: 14px; font-weight: bold;" onclick="goto_page1()"><u>이전으로</u></div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+<script>
+$(document).ready(function ()
+    {
+        $('.mp1-box').hover(function(){
+            $('.mp1-box').css('background-color','#053262');
+            $('.mp1-box-text').css('color','#fff'); 
+        }, function() {
+            $('.mp1-box').css('background-color','#edf4fa');
+            $('.mp1-box-text').css('color','#053262'); 
+        });
+
+
+        $('.img-input-box').hover(function(){
+            $('.img-input-box').css('background-color','#053262');
+            $('.img-input-text').css('color','#fff'); 
+        }, function() {
+            $('.img-input-box').css('background-color','#edf4fa');
+            $('.img-input-text').css('color','#053262');
+        });
+
+        $('.img-submit-box').hover(function(){
+            $('.img-submit-box').css('background-color','#053262');
+            $('.img-submit-text').css('color','#fff'); 
+        }, function() {
+            $('.img-submit-box').css('background-color','#edf4fa');
+            $('.img-submit-text').css('color','#053262');
+        });
+
+        $('.img-reupload-box').hover(function(){
+            $('.img-reupload-box').css('background-color','#053262');
+            $('.img-reupload-text').css('color','#fff'); 
+        }, function() {
+            $('.img-reupload-box').css('background-color','#edf4fa');
+            $('.img-reupload-text').css('color','#053262');
+        });
+    });
+
+function goto_page2(){
+    document.querySelector('#page1').style.display = "none";
+    document.querySelector('#page2').style.display = "flex";
+}
+
+function goto_page1(){
+    document.querySelector('#page1').style.display = "flex";
+    document.querySelector('#page2').style.display = "none";
+}
+
+var img_name = "";
+var image = "";
+function change_img(val){
+    img_name = val;
+    document.querySelector('#before_ii').style.display = "none";
+    document.querySelector('#after_ii').style.display = "flex";
+    document.querySelector('#after_rii').style.display = "flex";
+    document.querySelector('#sumitbtn').style.display = "flex";
+    document.querySelector('.img-input-text-after').innerHTML = document.querySelector('#inputid').files[0].name;
+}
+
+function click_submit(){
+    if(img_name == ""){
+        location.reload();
+        alert('이미지를 입력해주세요');
+        location.reload();
+    }
+}
+
+</script>
+
+<style>
+    #sumitbtn{
+        display: none;
+    }
+    #after_rii{
+        display: none;
+    }
+    #before_ii{
+        display: flex;
+    }
+    #after_ii{
+        display: none;
+    }
+    #page1{
+        display: flex;
+    }
+    #page2{
+        display: none;
+    }
+    .column-1-center{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .row-center-center{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    .main-container{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    .save-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        width: 500px;
+        height: 600px;
+        background-color: #fafafa;
+        margin-top: 40px;
+        border-radius: 20px;
+        box-shadow: 0 -1px 6px 0 rgba(0, 0, 0, 0.2);
+    }
+    .mp1{
+        font-size: 30px;
+        color: #2a2a2c;
+        font-weight: bold;
+    }
+    .mp1-box{
+        width: 300px;
+        height: 60px;
+        background-color: #edf4fa;
+        border-radius: 14px;
+        cursor: pointer;
+    }
+    .mp1-box-text{
+        font-size: 18px;
+        color: #053262;
+        font-weight: bold;
+    }
+    .img_input{
+        width: 300px;
+        height: 60px;
+        background-color: #edf4fa;
+        border-radius: 14px;
+    }
+    .img-input-box, .img-submit-box{
+        width: 300px;
+        height: 40px;
+        background-color: #edf4fa;
+        border-radius: 14px;
+        cursor: pointer;
+    }
+    .img-reupload-box{
+        width: 300px;
+        height: 40px;
+        background-color: #edf4fa;
+        border-radius: 14px;
+        cursor: pointer;
+        margin-bottom: 25px;
+    }
+    .img-reupload-text{
+        font-size: 14px;
+        color: #053262;
+        font-weight: bold;
+    }
+    .img-input-box{
+        margin-bottom: 20px;
+    }
+    .img-input-text, .img-submit-text{
+        font-size: 14px;
+        color: #053262;
+        font-weight: bold;
+    }
+    .img-input-box-after{
+        width: 300px;
+        height: 40px;
+        border-radius: 14px;
+        background-color: #fff;
+        border: solid 1px #053262;
+        margin-bottom: 8px;
+    }
+    .img-input-text-after{
+        font-size: 14px;
+        color: #053262;
+        font-weight: bold;
+    }
+</style>
